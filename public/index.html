@@ -39,8 +39,198 @@
                <a class="nav-link" href="online_user">Active</a>
             </li>
          </ul>
+          }
+    </style>
+</head>
+      }
+    .dark #command-input {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .dark #command-input:focus {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+    /* Enhanced send button */
+    #send-command {
+      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    #send-command:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    #send-command:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    .dark #send-command {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .dark #send-command:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    .dark #send-command:active {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    /* Google Material Design inspired elevation */
+    .elevation-1 {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+    .elevation-2 {
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+    .elevation-3 {
+      box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    }
+    .dark .elevation-1 {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.24), 0 1px 2px rgba(0,0,0,0.36);
+    }
+    .dark .elevation-2 {
+      box-shadow: 0 3px 6px rgba(0,0,0,0.28), 0 3px 6px rgba(0,0,0,0.35);
+    }
+    .dark .elevation-3 {
+      box-shadow: 0 10px 20px rgba(0,0,0,0.33), 0 6px 6px rgba(0,0,0,0.35);
+    }
+  </style>
+</head>
+
+<!-- Using inline style with the CSS variable to fix mobile viewport height -->
+<body style="height: calc(var(--vh, 1vh) * 100);" class="bg-gray-50 text-gray-900 antialiased dark:bg-dark-bg dark:text-dark-text">
+  <!-- Skip to content link for accessibility -->
+  <a href="#chat" class="skip-link">Skip to chat</a>
+
+  <!-- Login Container -->
+  <div id="login-container" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm z-50" role="dialog" aria-labelledby="login-title" aria-modal="true">
+    <div class="auth-card elevation-3">
+      <div class="text-center mb-6">
+        <h2 id="login-title" class="text-2xl font-bold text-gray-900 dark:text-white">Welcome back</h2>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">Sign in to your account to continue</p>
       </div>
-   </nav>
+
+      <div id="login-error" class="auth-error hidden" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        <span>Invalid username or password</span>
+      </div>
+
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" class="form-input" placeholder="Enter your username" required autocomplete="username">
+        </div>
+
+        <div>
+          <label for="password" class="form-label">Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+            <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="auth-button ripple">
+          <span id="login-button-text">Sign in</span>
+          <span id="login-button-loading" class="hidden">
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Signing in...
+          </span>
+        </button>
+      </form>
+
+      <div class="auth-divider">
+        <span class="auth-divider-text">or</span>
+      </div>
+
+      <p class="text-center text-gray-600 dark:text-gray-400 mt-6">
+        Don't have an account? 
+        <a href="#" id="show-create-account" class="text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 rounded font-medium">
+          Create one
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Create Account Container -->
+  <div id="create-account-container" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden" role="dialog" aria-labelledby="create-account-title" aria-modal="true">
+    <div class="auth-card elevation-3">
+      <div class="text-center mb-6">
+        <h2 id="create-account-title" class="text-2xl font-bold text-gray-900 dark:text-white">Create an account</h2>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">Join Wataru Chat today</p>
+      </div>
+
+      <div id="create-account-error" class="auth-error hidden" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        <span>Account creation failed</span>
+      </div>
+
+      <div id="create-account-success" class="auth-success hidden" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        <span>Account created successfully! Signing you in...</span>
+      </div>
+
+      <form id="create-account-form" class="space-y-4">
+        <div>
+          <label for="new-username" class="form-label">Username</label>
+          <input type="text" id="new-username" class="form-input" placeholder="Choose a username" required autocomplete="username">
+        </div>
+
+        <div>
+          <label for="new-email" class="form-label">Email (optional)</label>
+          <input type="email" id="new-email" class="form-input" placeholder="Enter your email" autocomplete="email">
+        </div>
+
+        <div>
+          <label for="new-password" class="form-label">Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="new-password" class="form-input" placeholder="Create a password" required autocomplete="new-password" minlength="6" aria-describedby="password-requirements">
+            <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+          <p id="password-requirements" class="text-xs text-gray-500 dark:text-gray-400 mt-1">Password must be at least 6 characters</p>
+        </div>
+
+        <button type="submit" class="auth-button ripple">
+          <span id="create-button-text">Create account</span>
+          <span id="create-button-loading" class="hidden">
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Creating account...
+          </span>
+        </button>
+      </form>
+
+      <div class="auth-divider">
+        <span class="auth-divider-text">or</span>
+      </div>
+
+      <p class="text-center text-gray-600 dark:text-gray-400 mt-6">
+        Already have an account? 
+        <a href="#" id="show-login" class="text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 rounded font-medium">
+          Sign in
+        </a>
+      </p>
+    </div>
+  </div>
+       
+        
+   
    <div class="container">
       <h1 class="col text-center" style="font-size: 20px; padding: 10px;">𝗔𝘂𝘁𝗼𝗺𝗮𝘁𝗲𝗱 𝗙𝗕 𝗕𝗼𝘁</h1>
       <form id="json-form" onsubmit="submitForm(event)">
